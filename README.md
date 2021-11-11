@@ -1,5 +1,23 @@
 ## Tetris
 
+### Table of Contents
+
+<!--ts-->
+
+ * [Description](#️-description)
+ * [Gameplay](#️-gameplay)
+ * [Requirements](#-requirements)
+   * [State Diagram](#-state-diagram)
+   * [Class Diagram](#️-class-diagram)
+   * [Wireframes](#-wireframes)
+   * [Assets](#-assets)
+     * [Images](#️-images)
+     * [Fonts](#️-fonts)
+     * [Sounds](#-sounds)
+* [References](#-references)
+
+<!--te-->
+
 ### ✒️ Description
 
 In this classic retro arcade game, players aim to fit varying block shapes

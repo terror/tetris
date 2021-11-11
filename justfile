@@ -11,3 +11,10 @@ run:
 
 fmt:
 	prettier --write .
+
+toc path:
+  gh-md-toc       \
+    --insert      \
+    --no-backup   \
+    --hide-footer \
+  {{ path }}

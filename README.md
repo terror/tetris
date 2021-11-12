@@ -4,17 +4,17 @@
 
 <!--ts-->
 
- * [Description](#️-description)
- * [Gameplay](#️-gameplay)
- * [Requirements](#-requirements)
-   * [State Diagram](#-state-diagram)
-   * [Class Diagram](#️-class-diagram)
-   * [Wireframes](#-wireframes)
-   * [Assets](#-assets)
-     * [Images](#️-images)
-     * [Fonts](#️-fonts)
-     * [Sounds](#-sounds)
-* [References](#-references)
+- [Description](#️-description)
+- [Gameplay](#️-gameplay)
+- [Requirements](#-requirements)
+  - [State Diagram](#-state-diagram)
+  - [Class Diagram](#️-class-diagram)
+  - [Wireframes](#-wireframes)
+  - [Assets](#-assets)
+    - [Images](#️-images)
+    - [Fonts](#️-fonts)
+    - [Sounds](#-sounds)
+- [References](#-references)
 
 <!--te-->
 
@@ -59,15 +59,15 @@ game to bring up a menu.
 3. The user should be able to place tetrominoes in the grid.
 
 4. The user should be able to move a tetromino left, right and down using `w`,
-    `a` and `s` respectively.
+   `a` and `s` respectively.
 
 5. The user should be able to rotate a tetromino using `w`.
 
 6. The user should be able to see a 'ghost tile', the position of the current
-    tile if it were to reach the bottom.
+   tile if it were to reach the bottom.
 
 7. The user should be able to press `spacebar` to move a tetromino to the
-    bottom.
+   bottom.
 
 8. A sound effect should play on a tetromino rotation.
 
@@ -82,10 +82,10 @@ game to bring up a menu.
     lines cleared.
 
 13. The player should be able to place a tetromino 'on hold', swapping the
-   current tetromino with the one on hold, or if there aren't any on hold, the
-   next one in the queue.
+    current tetromino with the one on hold, or if there aren't any on hold, the
+    next one in the queue.
 
-14. Grid rows should clear if they consist of a single color.
+14. Grid rows should clear if they are full.
 
 15. An animation should play once a row is cleared.
 
@@ -94,7 +94,7 @@ game to bring up a menu.
 17. The user should move to the next level once a score threshold is met.
 
 18. The speed and score threshold should increase as the player progresses
-   through the levels.
+    through the levels.
 
 19. Confetti should play after each level win.
 
@@ -108,24 +108,48 @@ TODO
 
 #### 🧵 Wireframes
 
-TODO
+The Wireframes below contain a rough outline for how the Tetris game user
+interface will look. The Wireframes do not consist of game sprites that will be
+used from external sources, instead they use generic shapes to represent game
+objects.
+
+<br/>
+<div align="center">
+  <img width="400" src="assets/proposal/Wireframe.png"/>
+</div>
+<br/>
 
 #### 🎨 Assets
 
-TODO
+I used [app.diagrams.net](https://app.diagrams.net/) to create the Wireframes
+and [PlantUML](https://plantuml.com/) in order to create the state diagram
+and the class diagram.
 
 ##### 🖼️ Images
 
-TODO
+- All game sprites will be downloaded from either [itch](https://itch.io/)
+  or [open game art](https://opengameart.org/).
 
 ##### ✏️ Fonts
 
-TODO
+For fonts, either the Joystix font or the VT323 font by Google, persisted
+throughout the application, will suffice in order to maintain a retro style
+theme.
+
+- [Joystix](https://www.dafont.com/joystix.font)
+- [VT323](https://fonts.google.com/specimen/VT323)
 
 ##### 🔊 Sounds
 
-TODO
+For sounds, there will be the tetris theme song that plays during gameplay,
+sounds effects for rotation, movement, collision, and row remove (subject to
+change).
+
+- [Tetris Theme Song](https://nhacchuong68.com/tetris-theme-song/)
+- [Rotation and movement sound](https://freesound.org/people/errysn/sounds/439523/)
+- [Collision sound](https://freesound.org/people/Raclure/sounds/483602/)
+- [Row removal sound](https://freesound.org/people/Swedger/sounds/268694/)
 
 ### 📚 References
 
-TODO
+- [Tetris Guideline](https://tetris.fandom.com/wiki/Tetris_Guideline)

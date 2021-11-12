@@ -104,7 +104,7 @@ game to bring up a menu.
 
 #### 🗺️ Class Diagram
 
-TODO
+![](assets/proposal/ClassDiagram.png)
 
 #### 🧵 Wireframes
 

@@ -4,9 +4,9 @@ skinparam monochrome true
 hide empty members
 
 class PlayState {
-  board:    Board
-  powerUps: PowerUp[]
-  score:    Number
+  board
+  powerUps
+  score
   enter()
   exit()
   update()
@@ -18,7 +18,7 @@ class PlayState {
 }
 
 class Board {
-  blocks: Block[]
+  blocks
   update()
   render()
   clear()
@@ -26,11 +26,11 @@ class Board {
 }
 
 class Block {
-  boardPosition:  Position
-  canvasPosition: Position
-  update(dt)
+  boardPosition
+  canvasPosition
+  update()
   render()
-  move(direction)
+  move()
   rotate()
 }
 
@@ -63,18 +63,18 @@ class BlockJ {
 }
 
 class PowerUp {
-  update(dt)
-  hit(state)
+  update()
+  hit()
   render()
 }
 
 class TimePowerUp {
-  hit(state)
+  hit()
   render()
 }
 
 class SpeedPowerUp {
-  hit(state)
+  hit()
   render()
 }
 

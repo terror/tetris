@@ -1,0 +1,115 @@
+@startuml Tetris
+
+skinparam monochrome true
+hide empty members
+
+class PlayState {
+  board:    Board
+  powerUps: PowerUp[]
+  score:    Number
+  enter()
+  exit()
+  update()
+  render()
+  checkVictory()
+  checkGameOver()
+  handleCollisions()
+  generateBlock()
+}
+
+class Board {
+  blocks: Block[]
+  update()
+  render()
+  clear()
+  checkCollision(block)
+}
+
+class Block {
+  boardPosition:  Position
+  canvasPosition: Position
+  update(dt)
+  render()
+  move(direction)
+  rotate()
+}
+
+class BlockI {
+  render()
+}
+
+class BlockO {
+  render()
+}
+
+class BlockT {
+  render()
+}
+
+class BlockS {
+  render()
+}
+
+class BlockL {
+  render()
+}
+
+class BlockZ {
+  render()
+}
+
+class BlockJ {
+  render()
+}
+
+class PowerUp {
+  update(dt)
+  hit(state)
+  render()
+}
+
+class TimePowerUp {
+  hit(state)
+  render()
+}
+
+class SpeedPowerUp {
+  hit(state)
+  render()
+}
+
+class BlockFactory {
+  createInstance()
+}
+
+class PowerUpFactory {
+  createInstance()
+}
+
+class Position {
+  x
+  y
+}
+
+enum Direction {
+  LEFT
+  RIGHT
+  DOWN
+}
+
+PlayState -- "1" Board
+PlayState -- "*" PowerUp
+Board     -- "*" Block
+
+PowerUp <|-- TimePowerUp
+PowerUp <|-- SpeedPowerUp
+
+Block <|-- BlockI
+Block <|-- BlockO
+Block <|-- BlockT
+Block <|-- BlockS
+Block <|-- BlockL
+Block <|-- BlockZ
+Block <|-- BlockJ
+
+@enduml

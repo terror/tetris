@@ -1,0 +1,44 @@
+@startuml Tetris
+
+skinparam monochrome true
+hide empty members
+
+/' States '/
+state "TitleScreenState"     as TSS
+state "LevelSelectState"     as LSS
+state "PlayState"            as PS
+state "PausedState"          as PDS
+state "LevelTransitionState" as LTS
+state "VictoryState"         as VS
+state "GameOverState"        as GOS
+state "HighScoreState"       as HSS
+state "EnterHighScoreState"  as EHSS
+
+/' Choices '/
+state Menu <<choice>>
+
+[*] --> TSS
+
+TSS --> Menu
+
+Menu --> LSS:  Select "Play"
+Menu --> HSS:  Select "High Scores"
+
+LSS --> PS:  Hit Enter
+HSS --> TSS: Hit Escape
+
+PS  --> LTS: Reach a score threshold
+LTS --> PS
+
+PS  --> PDS: Hit P
+PDS --> PS:  Select "Resume"
+PDS --> TSS: Select "Quit"
+
+PS --> VS:  Beat all levels
+PS --> GOS: Lose a level
+
+VS   --> EHSS: Hit Enter
+GOS  --> EHSS: Hit Enter
+EHSS --> HSS:  Hit Enter
+
+@enduml

@@ -1,4 +1,4 @@
-## Tetris
+## Game Programming F21 Project - Tetris
 
 ### Table of Contents
 
@@ -100,7 +100,7 @@ game to bring up a menu.
 
 #### 🤖 State Diagram
 
-TODO
+![](assets/proposal/StateDiagram.png)
 
 #### 🗺️ Class Diagram
 

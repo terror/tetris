@@ -6,7 +6,9 @@ hide empty members
 class PlayState {
   board
   powerUps
+  level
   score
+  linesCleared
   enter()
   exit()
   update()
@@ -22,7 +24,6 @@ class Board {
   update()
   render()
   clear()
-  checkCollision(block)
 }
 
 class Block {

@@ -1,15 +1,19 @@
 /**
- * Game Name
+ * Tetris
  *
- * Authors
+ * Liam Scalzulli
  *
- * Brief description
+ * The classic retro arcade game tetris.
  *
- * Asset sources
+ * Asset sources: TODO
  */
 
 import GameStateName from "./enums/GameStateName.js";
 import Game from "../lib/Game.js";
+import PlayState from "./states/PlayState.js";
+import GameOverState from "./states/GameOverState.js";
+import VictoryState from "./states/VictoryState.js";
+import TitleScreenState from "./states/TitleScreenState.js";
 import {
   canvas,
   context,
@@ -19,10 +23,6 @@ import {
   sounds,
   stateMachine,
 } from "./globals.js";
-import PlayState from "./states/PlayState.js";
-import GameOverState from "./states/GameOverState.js";
-import VictoryState from "./states/VictoryState.js";
-import TitleScreenState from "./states/TitleScreenState.js";
 
 // Fetch the asset definitions from config.json.
 const {
@@ -38,12 +38,10 @@ fonts.load(fontDefinitions);
 sounds.load(soundDefinitions);
 
 // Add all the states to the state machine.
-stateMachine.add(GameStateName.TitleScreen, new TitleScreenState());
 stateMachine.add(GameStateName.GameOver, new GameOverState());
 stateMachine.add(GameStateName.Victory, new VictoryState());
 stateMachine.add(GameStateName.Play, new PlayState());
-
-stateMachine.change(GameStateName.Play);
+stateMachine.add(GameStateName.TitleScreen, new TitleScreenState());
 
 // Add event listeners for player input.
 canvas.addEventListener("keydown", (event) => {

@@ -1,5 +1,37 @@
 {
-  "images": [],
-  "fonts": [],
-  "sounds": []
+  "images": [
+    {
+      "name": "background",
+      "path": "./assets/images/background.png",
+      "width": 1280,
+      "height": 720
+    }
+  ],
+  "fonts": [
+    {
+      "name": "Joystix",
+      "path": "./assets/fonts/Joystix.ttf"
+    }
+  ],
+  "sounds": [
+    {
+      "name": "theme",
+      "path": "./assets/sounds/theme.mp3",
+      "size": 5,
+      "volume": 0.05,
+      "loop": true
+    },
+    {
+      "name": "rotate",
+      "path": "./assets/sounds/rotate.mp3",
+      "size": 5,
+      "volume": 0.15
+    },
+    {
+      "name": "bump",
+      "path": "./assets/sounds/bump.mp3",
+      "size": 5,
+      "volume": 0.15
+    }
+  ]
 }

@@ -1,5 +1,5 @@
 const ImageName = {
-  Background: "background",
+  Background: 'background',
 };
 
 export default ImageName;

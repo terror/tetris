@@ -1,7 +1,7 @@
 const SoundName = {
-  Theme: "theme",
-  Rotate: "rotate",
-  Bump: "bump",
+  Theme: 'theme',
+  Rotate: 'rotate',
+  Bump: 'bump',
 };
 
 export default SoundName;

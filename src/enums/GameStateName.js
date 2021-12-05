@@ -1,10 +1,13 @@
 const GameStateName = {
-  EnterHighScore: "enter-highscore",
-  GameOver: "game-over",
-  Highscore: "highscore",
-  LevelSelect: "level-select",
-  Play: "play",
-  Victory: "victory",
+  EnterHighScore: 'enter-highscore',
+  GameOver: 'game-over',
+  HighScore: 'highscore',
+  LevelSelect: 'level-select',
+  LevelTransition: 'level-transition',
+  Paused: 'paused',
+  Play: 'play',
+  Title: 'title',
+  Victory: 'victory',
 };
 
 export default GameStateName;

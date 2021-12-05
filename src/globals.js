@@ -1,14 +1,15 @@
-import Fonts from "../lib/Fonts.js";
-import Images from "../lib/Images.js";
-import Sounds from "../lib/Sounds.js";
-import StateMachine from "../lib/StateMachine.js";
-import Timer from "../lib/Timer.js";
+import Fonts from '../lib/Fonts.js';
+import Images from '../lib/Images.js';
+import Sounds from '../lib/Sounds.js';
+import StateMachine from '../lib/StateMachine.js';
+import Timer from '../lib/Timer.js';
 
-export const canvas = document.querySelector("canvas");
-export const context = canvas.getContext("2d");
+export const canvas = document.querySelector('canvas');
+export const context = canvas.getContext('2d');
 
 export const CANVAS_WIDTH = canvas.width;
 export const CANVAS_HEIGHT = canvas.height;
+export const MAX_HIGH_SCORES = 10;
 
 export const keys = {};
 export const images = new Images(context);

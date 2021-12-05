@@ -1,7 +1,7 @@
-import GameStateName from "../enums/GameStateName.js";
-import ImageName from "../enums/ImageName.js";
-import SoundName from "../enums/SoundName.js";
-import State from "../../lib/State.js";
+import GameStateName from '../enums/GameStateName.js';
+import ImageName from '../enums/ImageName.js';
+import SoundName from '../enums/SoundName.js';
+import State from '../../lib/State.js';
 import {
   CANVAS_HEIGHT,
   CANVAS_WIDTH,
@@ -10,15 +10,15 @@ import {
   keys,
   sounds,
   stateMachine,
-} from "../globals.js";
+} from '../globals.js';
 
 export default class TitleScreenState extends State {
   constructor() {
     super();
 
     this.menuOptions = {
-      start: "Start",
-      highScores: "High Scores",
+      start: 'Start',
+      highScores: 'High Scores',
     };
 
     this.highlighted = this.menuOptions.start;
@@ -42,7 +42,7 @@ export default class TitleScreenState extends State {
       if (this.highlighted === this.menuOptions.start) {
         stateMachine.change(GameStateName.LevelSelect);
       } else {
-        stateMachine.change(GameStateName.Highscore);
+        stateMachine.change(GameStateName.HighScore);
       }
     }
   }
@@ -52,17 +52,27 @@ export default class TitleScreenState extends State {
 
     context.save();
 
-    context.font = "40px Joystix";
-    context.fillStyle = "white";
-    context.textBaseline = "middle";
-    context.textAlign = "center";
+    context.font = '40px Joystix';
+    context.fillStyle = 'white';
+    context.textBaseline = 'middle';
+    context.textAlign = 'center';
 
     context.fillText(`TETRIS`, CANVAS_WIDTH * 0.5, CANVAS_HEIGHT * 0.5);
 
-    context.font = "20px Joystix";
-    context.fillStyle =
-      this.highlighted === this.menuOptions.start ? "cornflowerblue" : "white";
+    // Decrease the font size
+    context.font = '20px Joystix';
 
+    // Description
+    context.fillText(
+      `The Classic Retro-Style Arcade Game`,
+      CANVAS_WIDTH * 0.5,
+      CANVAS_HEIGHT * 0.56
+    );
+
+    context.fillStyle =
+      this.highlighted === this.menuOptions.start ? 'cornflowerblue' : 'white';
+
+    // `Start` menu option
     context.fillText(
       `${this.menuOptions.start}`,
       CANVAS_WIDTH * 0.5,
@@ -71,9 +81,10 @@ export default class TitleScreenState extends State {
 
     context.fillStyle =
       this.highlighted === this.menuOptions.highScores
-        ? "cornflowerblue"
-        : "white";
+        ? 'cornflowerblue'
+        : 'white';
 
+    // `High Scores` menu option
     context.fillText(
       `${this.menuOptions.highScores}`,
       CANVAS_WIDTH * 0.5,

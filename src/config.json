@@ -32,6 +32,18 @@
       "path": "./assets/sounds/bump.mp3",
       "size": 5,
       "volume": 0.15
+    },
+    {
+      "name": "success",
+      "path": "./assets/sounds/success.mp3",
+      "size": 5,
+      "volume": 0.15
+    },
+    {
+      "name": "over",
+      "path": "./assets/sounds/over.mp3",
+      "size": 5,
+      "volume": 0.15
     }
   ]
 }

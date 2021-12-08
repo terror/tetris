@@ -1,6 +1,7 @@
 import Direction from '../enums/Direction.js';
 import GameStateName from '../enums/GameStateName.js';
 import ImageName from '../enums/ImageName.js';
+import SoundName from '../enums/SoundName.js';
 import Piece from '../objects/Piece.js';
 import PieceFactory from '../services/PieceFactory.js';
 import PieceType from '../enums/PieceType.js';
@@ -12,6 +13,7 @@ import {
   images,
   keys,
   MAX_LEVEL,
+  sounds,
   stateMachine,
   timer,
 } from '../globals.js';
@@ -27,13 +29,16 @@ export default class PlayState extends State {
     this.score = 0;
 
     // Score we have to reach to get to the next level
-    this.goal = 250;
+    this.goal = 20;
 
     // How much goal will be scaled by per level
     this.goalScale = 1.25;
 
     // How much to scale up the time per level
     this.timerScale = 1.25;
+
+    // How much to scale the interval down per level
+    this.intervalScale = 0.05;
 
     // Add `20` points if the player sweeps a line
     this.sweepBonus = 20;
@@ -57,16 +62,32 @@ export default class PlayState extends State {
     this.board = parameters.board;
     this.score = parameters.score;
     this.level = parameters.level;
-    this.piece = parameters.piece;
+    this.pieces = parameters.pieces;
+
+    // Reset the timer
+    this.timer = this.maxTimer;
 
     // Scale the goal according to the current level
     this.goal *= Math.floor(this.level * this.goalScale);
 
-    // Scale the timer accordingly
+    // Scale the timer accordingly, more time for higher levels
     this.timer *= Math.floor(this.level * this.timerScale);
+
+    // Scale the interval at which pieces fall accordingly, faster for higher levels
+    this.interval -= Math.floor(
+      this.interval * (this.intervalScale * this.level)
+    );
 
     // Begin the level timer
     this.startTimer();
+  }
+
+  /**
+   * Get the current piece.
+   * @returns {Piece} The current piece
+   */
+  get piece() {
+    return this.pieces.top();
   }
 
   /**
@@ -90,6 +111,7 @@ export default class PlayState extends State {
     } else if (keys.w) {
       keys.w = false;
       this.piece.rotate(this.board);
+      sounds.play(SoundName.Rotate);
     } else if (keys.s) {
       keys.s = false;
       this.piece.move({ state: this, direction: Direction.Down });
@@ -99,7 +121,7 @@ export default class PlayState extends State {
   }
 
   /**
-   * Render the scene.
+   * Render the entire scene.
    */
   render() {
     context.save();
@@ -111,12 +133,33 @@ export default class PlayState extends State {
     this.renderHeader();
     this.renderStatistics();
     this.renderGame();
+    this.renderNext();
 
     context.restore();
   }
 
   /**
-   * Render the user interface.
+   * Render the header.
+   */
+  renderHeader() {
+    // Title
+    context.font = '40px Joystix';
+    context.fillStyle = 'white';
+    context.textBaseline = 'middle';
+    context.textAlign = 'center';
+    context.fillText(`TETRIS`, CANVAS_WIDTH * 0.75, CANVAS_HEIGHT * 0.05);
+
+    // Description
+    context.font = '20px Joystix';
+    context.fillText(
+      `The Classic Retro-Style Arcade Game`,
+      CANVAS_WIDTH * 0.75,
+      CANVAS_HEIGHT * 0.1
+    );
+  }
+
+  /**
+   * Render the statistics pane.
    */
   renderStatistics() {
     // Stastics border
@@ -149,21 +192,23 @@ export default class PlayState extends State {
     context.fillText(`${this.timer}`, CANVAS_WIDTH * 0.85, CANVAS_HEIGHT * 0.4);
   }
 
-  renderHeader() {
-    // Title
-    context.font = '40px Joystix';
-    context.fillStyle = 'white';
-    context.textBaseline = 'middle';
-    context.textAlign = 'center';
-    context.fillText(`TETRIS`, CANVAS_WIDTH * 0.75, CANVAS_HEIGHT * 0.05);
-
-    // Description
-    context.font = '20px Joystix';
-    context.fillText(
-      `The Classic Retro-Style Arcade Game`,
-      CANVAS_WIDTH * 0.75,
-      CANVAS_HEIGHT * 0.1
+  /**
+   * Render the next piece.
+   */
+  renderNext() {
+    // Next piece border
+    context.strokeStyle = 'white';
+    context.strokeRect(
+      CANVAS_WIDTH * 0.65 - 50,
+      CANVAS_HEIGHT * 0.55 - 50,
+      CANVAS_WIDTH * 0.85 - CANVAS_WIDTH * 0.6 + 50,
+      CANVAS_HEIGHT * 0.55 - CANVAS_HEIGHT * 0.15 + 50
     );
+
+    // Next piece
+    context.fillStyle = 'white';
+    context.fillText(`Next Piece`, CANVAS_WIDTH * 0.82, CANVAS_HEIGHT * 0.55);
+    this.pieces.renderNext();
   }
 
   renderGame() {
@@ -174,7 +219,6 @@ export default class PlayState extends State {
 
   /**
    * Decrement the timer each second.
-   * Note: Assignment #3 - Match 3 - PlayState.js:397
    */
   startTimer() {
     timer.addTask(() => --this.timer, 1, this.maxTimer);
@@ -199,10 +243,10 @@ export default class PlayState extends State {
       this.piece.move({ state: this, direction: Direction.Up });
 
       // Add it to the board
-      this.board.add(this.piece);
+      this.board.add(this.pieces.pop());
 
       // Set a new random piece
-      this.piece = Piece.getRandomPiece();
+      this.pieces.push(Piece.getRandomPiece());
 
       // Check for lines
       this.handlePlacement(
@@ -242,7 +286,13 @@ export default class PlayState extends State {
 
     // If we're on the last level, transition to the `victory` state
     if (this.level === MAX_LEVEL) {
-      stateMachine.changeState(GameStateName.Victory);
+      // Play victory sound
+      sounds.play(SoundName.Victory);
+
+      // Transition to the victory state
+      stateMachine.changeState(GameStateName.Victory, {
+        score: this.score,
+      });
     }
 
     // Go on to the next level
@@ -262,8 +312,12 @@ export default class PlayState extends State {
       return;
     }
 
+    // Play game over sound
+    sounds.play(SoundName.GameOver);
+
     // Transition to the `game over` state
     stateMachine.change(GameStateName.GameOver, {
+      level: this.level,
       score: this.score,
     });
   }

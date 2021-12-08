@@ -3,6 +3,7 @@ import GameStateName from '../enums/GameStateName.js';
 import ImageName from '../enums/ImageName.js';
 import Piece from '../objects/Piece.js';
 import SoundName from '../enums/SoundName.js';
+import Queue from '../../lib/Queue.js';
 import State from '../../lib/State.js';
 import Vector from '../../lib/Vector.js';
 import {
@@ -23,10 +24,18 @@ export default class LevelSelectState extends State {
     super();
   }
 
+  /**
+   * Enter the state.
+   * @param {Object} parameters - The parameters to pass to the state.
+   */
   enter(parameters) {
     this.level = 1;
   }
 
+  /**
+   * Update the state.
+   * @param {Number} dt - The delta time.
+   */
   update(dt) {
     // If they hit `Escape`, go back to the `Title` screen.
     if (keys.Escape) {
@@ -47,7 +56,7 @@ export default class LevelSelectState extends State {
         ),
         score: 0,
         level: this.level,
-        piece: Piece.getRandomPiece(),
+        pieces: new Queue([Piece.getRandomPiece(), Piece.getRandomPiece()]),
       });
     }
 
@@ -70,6 +79,9 @@ export default class LevelSelectState extends State {
     }
   }
 
+  /**
+   * Render the states interface.
+   */
   render() {
     images.render(ImageName.Background, 0, 0, CANVAS_WIDTH, CANVAS_HEIGHT);
 

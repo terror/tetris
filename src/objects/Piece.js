@@ -150,14 +150,16 @@ export default class Piece {
   /**
    * Render a single piece on the canvas.
    */
-  render() {
+  render(position = null) {
     this.matrix.forEach((row, y) => {
       row.forEach((value, x) => {
         if (Object.values(ColorName)[value - 1] !== undefined) {
           context.fillStyle = Object.values(ColorName)[value - 1];
           context.fillRect(
-            this.position.x + x * Piece.PIECE_SIZE,
-            this.position.y + y * Piece.PIECE_SIZE,
+            (position !== null ? position.x : this.position.x) +
+              x * Piece.PIECE_SIZE,
+            (position !== null ? position.y : this.position.y) +
+              y * Piece.PIECE_SIZE,
             Piece.PIECE_SIZE,
             Piece.PIECE_SIZE
           );

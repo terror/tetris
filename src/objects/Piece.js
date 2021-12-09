@@ -11,6 +11,7 @@ import {
   CANVAS_WIDTH,
   context,
 } from '../globals.js';
+import SpriteManager from '../../lib/SpriteManager.js';
 
 export default class Piece {
   static PIECE_SIZE = 50;
@@ -28,6 +29,9 @@ export default class Piece {
 
     // Position on the canvas
     this.position = new Vector(Piece.X_POS, Piece.Y_POS);
+
+    // Set piece sprites
+    this.sprites = SpriteManager.generatePieceSprites();
   }
 
   /**
@@ -153,15 +157,12 @@ export default class Piece {
   render(position = null) {
     this.matrix.forEach((row, y) => {
       row.forEach((value, x) => {
-        if (Object.values(ColorName)[value - 1] !== undefined) {
-          context.fillStyle = Object.values(ColorName)[value - 1];
-          context.fillRect(
+        if (value !== 0) {
+          this.sprites[value].render(
             (position !== null ? position.x : this.position.x) +
               x * Piece.PIECE_SIZE,
             (position !== null ? position.y : this.position.y) +
-              y * Piece.PIECE_SIZE,
-            Piece.PIECE_SIZE,
-            Piece.PIECE_SIZE
+              y * Piece.PIECE_SIZE
           );
         }
       });

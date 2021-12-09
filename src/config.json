@@ -5,6 +5,12 @@
       "path": "./assets/images/background.png",
       "width": 1280,
       "height": 720
+    },
+    {
+      "name": "pieces",
+      "path": "./assets/images/pieces.png",
+      "width": 32,
+      "height": 80
     }
   ],
   "fonts": [
@@ -42,6 +48,12 @@
     {
       "name": "over",
       "path": "./assets/sounds/over.mp3",
+      "size": 5,
+      "volume": 0.15
+    },
+    {
+      "name": "removal",
+      "path": "./assets/sounds/removal.mp3",
       "size": 5,
       "volume": 0.15
     }

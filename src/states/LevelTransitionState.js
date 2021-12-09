@@ -34,6 +34,9 @@ export default class LevelTransitionState extends State {
     this.score = parameters.score;
     this.level = parameters.level;
 
+    // Reset the timer
+    this.timer = this.maxTimer;
+
     // Launch the confetti
     // TODO: Get this to display above the interface
     // confetti({

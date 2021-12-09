@@ -1,6 +1,8 @@
 import ColorName from '../enums/ColorName.js';
 import Piece from './Piece.js';
-import { CANVAS_HEIGHT, CANVAS_WIDTH, context } from '../globals.js';
+import { CANVAS_HEIGHT, CANVAS_WIDTH, context, sounds } from '../globals.js';
+import SoundName from '../enums/SoundName.js';
+import SpriteManager from '../../lib/SpriteManager.js';
 
 export default class Board {
   /**
@@ -11,6 +13,7 @@ export default class Board {
   constructor(position, dimensions) {
     this.position = position;
     this.dimensions = dimensions;
+    this.sprites = SpriteManager.generatePieceSprites();
     this.initializeBoard();
   }
 
@@ -47,6 +50,7 @@ export default class Board {
     let cleared = 0;
     for (let y = this.pieces.length - 1; y >= 0; y--) {
       if (!this.pieces[y].some((value, x) => value === 0)) {
+        sounds.play(SoundName.Clear);
         this.pieces.unshift(this.pieces.splice(y, 1)[0].fill(0));
         ++cleared;
       }
@@ -83,13 +87,10 @@ export default class Board {
     // Render all pieces
     this.pieces.forEach((row, y) => {
       row.forEach((value, x) => {
-        if (Object.values(ColorName)[value - 1] !== undefined) {
-          context.fillStyle = Object.values(ColorName)[value - 1];
-          context.fillRect(
+        if (value !== 0) {
+          this.sprites[value].render(
             x * Piece.PIECE_SIZE,
-            y * Piece.PIECE_SIZE,
-            Piece.PIECE_SIZE,
-            Piece.PIECE_SIZE
+            y * Piece.PIECE_SIZE
           );
         }
       });

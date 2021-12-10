@@ -1,7 +1,7 @@
-import ColorName from '../enums/ColorName.js';
 import Direction from '../enums/Direction.js';
 import PieceFactory from '../services/PieceFactory.js';
 import PieceType from '../enums/PieceType.js';
+import SpriteManager from '../../lib/SpriteManager.js';
 import Vector from '../../lib/Vector.js';
 import { getRandomPositiveInteger } from '../../lib/RandomNumberHelpers.js';
 import {
@@ -11,7 +11,6 @@ import {
   CANVAS_WIDTH,
   context,
 } from '../globals.js';
-import SpriteManager from '../../lib/SpriteManager.js';
 
 export default class Piece {
   static PIECE_SIZE = 50;

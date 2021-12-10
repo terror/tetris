@@ -1,8 +1,7 @@
-import ColorName from '../enums/ColorName.js';
 import Piece from './Piece.js';
-import { CANVAS_HEIGHT, CANVAS_WIDTH, context, sounds } from '../globals.js';
 import SoundName from '../enums/SoundName.js';
 import SpriteManager from '../../lib/SpriteManager.js';
+import { CANVAS_HEIGHT, CANVAS_WIDTH, context, sounds } from '../globals.js';
 
 export default class Board {
   /**

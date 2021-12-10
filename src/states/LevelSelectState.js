@@ -56,7 +56,9 @@ export default class LevelSelectState extends State {
         ),
         score: 0,
         level: this.level,
-        pieces: new Queue([Piece.getRandomPiece(), Piece.getRandomPiece()]),
+        pieces: new Queue(
+          new Array(4).fill(null).map(() => Piece.getRandomPiece())
+        ),
       });
     }
 

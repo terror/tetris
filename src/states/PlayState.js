@@ -49,6 +49,9 @@ export default class PlayState extends State {
     // Current interval
     this.currentInterval = 0;
 
+    // Current amount of ticks
+    this.currentTicks = 0;
+
     // Time needed to beat the level
     this.maxTimer = 60;
     this.timer = this.maxTimer;
@@ -101,6 +104,14 @@ export default class PlayState extends State {
       this.tick();
     }
 
+    // Place a piece on `hold`
+    if (keys.Enter) {
+      keys.Enter = false;
+      if (this.currentTicks === 0) {
+        this.pieces.swap(this.piece);
+      }
+    }
+
     // Handle player movement
     if (keys.a) {
       keys.a = false;
@@ -133,6 +144,7 @@ export default class PlayState extends State {
     this.renderHeader();
     this.renderStatistics();
     this.renderGame();
+    this.renderHold();
     this.renderNext();
 
     context.restore();
@@ -165,31 +177,50 @@ export default class PlayState extends State {
     // Stastics border
     context.strokeStyle = 'white';
     context.strokeRect(
-      CANVAS_WIDTH * 0.65 - 50,
+      CANVAS_WIDTH * 0.75 - 50,
       CANVAS_HEIGHT * 0.25 - 50,
-      CANVAS_WIDTH * 0.85 - CANVAS_WIDTH * 0.6 + 50,
-      CANVAS_HEIGHT * 0.35 - CANVAS_HEIGHT * 0.15 + 50
+      CANVAS_WIDTH * 0.85 - CANVAS_WIDTH * 0.65 + 95,
+      CANVAS_HEIGHT * 0.35 - CANVAS_HEIGHT * 0.15 + 120
     );
 
     // Render all statistics
     context.font = '25px Joystix';
     context.textAlign = 'left';
 
-    context.fillText(`Level:`, CANVAS_WIDTH * 0.65, CANVAS_HEIGHT * 0.25);
-    context.fillText(`Score:`, CANVAS_WIDTH * 0.65, CANVAS_HEIGHT * 0.3);
-    context.fillText(`Goal:`, CANVAS_WIDTH * 0.65, CANVAS_HEIGHT * 0.35);
-    context.fillText(`Timer:`, CANVAS_WIDTH * 0.65, CANVAS_HEIGHT * 0.4);
+    context.fillText(`Level:`, CANVAS_WIDTH * 0.75, CANVAS_HEIGHT * 0.25);
+    context.fillText(`Score:`, CANVAS_WIDTH * 0.75, CANVAS_HEIGHT * 0.3);
+    context.fillText(`Goal:`, CANVAS_WIDTH * 0.75, CANVAS_HEIGHT * 0.35);
+    context.fillText(`Timer:`, CANVAS_WIDTH * 0.75, CANVAS_HEIGHT * 0.4);
 
     context.textAlign = 'right';
 
     context.fillText(
       `${this.level}`,
-      CANVAS_WIDTH * 0.85,
+      CANVAS_WIDTH * 0.95,
       CANVAS_HEIGHT * 0.25
     );
-    context.fillText(`${this.score}`, CANVAS_WIDTH * 0.85, CANVAS_HEIGHT * 0.3);
-    context.fillText(`${this.goal}`, CANVAS_WIDTH * 0.85, CANVAS_HEIGHT * 0.35);
-    context.fillText(`${this.timer}`, CANVAS_WIDTH * 0.85, CANVAS_HEIGHT * 0.4);
+    context.fillText(`${this.score}`, CANVAS_WIDTH * 0.95, CANVAS_HEIGHT * 0.3);
+    context.fillText(`${this.goal}`, CANVAS_WIDTH * 0.95, CANVAS_HEIGHT * 0.35);
+    context.fillText(`${this.timer}`, CANVAS_WIDTH * 0.95, CANVAS_HEIGHT * 0.4);
+  }
+
+  /**
+   * Render the piece on hold.
+   */
+  renderHold() {
+    // Hold border
+    context.strokeStyle = 'white';
+    context.strokeRect(
+      CANVAS_WIDTH * 0.54 - 50,
+      CANVAS_HEIGHT * 0.25 - 50,
+      CANVAS_WIDTH * 0.85 - CANVAS_WIDTH * 0.65,
+      CANVAS_HEIGHT * 0.35 - CANVAS_HEIGHT * 0.15 + 120
+    );
+
+    // Hold piece
+    context.fillStyle = 'white';
+    context.fillText(`Hold`, CANVAS_WIDTH * 0.63, CANVAS_HEIGHT * 0.21);
+    this.pieces.renderHold();
   }
 
   /**
@@ -199,15 +230,15 @@ export default class PlayState extends State {
     // Next piece border
     context.strokeStyle = 'white';
     context.strokeRect(
-      CANVAS_WIDTH * 0.65 - 50,
-      CANVAS_HEIGHT * 0.55 - 50,
-      CANVAS_WIDTH * 0.85 - CANVAS_WIDTH * 0.6 + 50,
-      CANVAS_HEIGHT * 0.55 - CANVAS_HEIGHT * 0.15 + 50
+      CANVAS_WIDTH * 0.5,
+      CANVAS_HEIGHT * 0.6 - 20,
+      CANVAS_WIDTH * 0.85 - CANVAS_WIDTH * 0.6 + 300,
+      CANVAS_HEIGHT * 0.55 - CANVAS_HEIGHT * 0.15 + 10
     );
 
     // Next piece
     context.fillStyle = 'white';
-    context.fillText(`Next Piece`, CANVAS_WIDTH * 0.82, CANVAS_HEIGHT * 0.55);
+    context.fillText(`Next`, CANVAS_WIDTH * 0.78, CANVAS_HEIGHT * 0.62);
     this.pieces.renderNext();
   }
 
@@ -230,6 +261,7 @@ export default class PlayState extends State {
   tick() {
     // Reset the interval and move the piece down
     this.currentInterval = 0;
+    this.currentTicks += 1;
     this.piece.move({ state: this, direction: Direction.Down });
   }
 
@@ -262,6 +294,9 @@ export default class PlayState extends State {
    * @param {Boolean} didCollide - If the new piece collided with the board
    */
   handlePlacement(cleared, didCollide) {
+    // Reset current ticks
+    this.currentTicks = 0;
+
     // Placed blocks get one point
     this.score += 1;
 

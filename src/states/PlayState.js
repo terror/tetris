@@ -68,21 +68,24 @@ export default class PlayState extends State {
     this.pieces = parameters.pieces;
 
     // Reset the timer
-    this.timer = this.maxTimer;
+    this.timer = parameters.timer ?? this.maxTimer;
 
-    // Scale the goal according to the current level
-    this.goal *= Math.floor(this.level * this.goalScale);
+    if (!parameters.resumed) {
+      console.log(parameters.resumed);
+      // Scale the timer accordingly, more time for higher levels
+      this.timer *= Math.floor(this.level * this.timerScale);
 
-    // Scale the timer accordingly, more time for higher levels
-    this.timer *= Math.floor(this.level * this.timerScale);
+      // Scale the goal according to the current level
+      this.goal *= Math.floor(this.level * this.goalScale);
 
-    // Scale the interval at which pieces fall accordingly, faster for higher levels
-    this.interval -= Math.floor(
-      this.interval * (this.intervalScale * this.level)
-    );
+      // Scale the interval at which pieces fall accordingly, faster for higher levels
+      this.interval -= Math.floor(
+        this.interval * (this.intervalScale * this.level)
+      );
 
-    // Begin the level timer
-    this.startTimer();
+      // Begin the level timer
+      this.startTimer();
+    }
   }
 
   /**
@@ -102,6 +105,12 @@ export default class PlayState extends State {
     this.currentInterval += dt * 1000;
     if (this.currentInterval > this.interval) {
       this.tick();
+    }
+
+    // Pause the game
+    if (keys.p) {
+      keys.p = false;
+      stateMachine.change(GameStateName.Paused, { state: this });
     }
 
     // Place a piece on `hold`

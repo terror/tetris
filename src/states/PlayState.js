@@ -124,6 +124,15 @@ export default class PlayState extends State {
       }
     }
 
+    // Place the piece all the way down
+    if (keys[' ']) {
+      keys[' '] = false;
+      this.dropping = true;
+      while (this.dropping) {
+        this.piece.move({ state: this, direction: Direction.Down });
+      }
+    }
+
     // Handle player movement
     if (keys.a) {
       keys.a = false;
@@ -298,6 +307,9 @@ export default class PlayState extends State {
   handleTick() {
     // If the piece collided with the board, place it and check for lines
     if (this.piece.didCollide(this.board)) {
+      // If the piece is currently dropping, we need to stop it
+      this.dropping = false;
+
       // Move the piece up
       this.piece.move({ state: this, direction: Direction.Up });
 

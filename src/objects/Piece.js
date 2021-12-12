@@ -44,6 +44,17 @@ export default class Piece {
   }
 
   /**
+   * Create a new `Piece` based on a previous state.
+   * @param {Object} state - The previous state
+   */
+  static fromState(state) {
+    if (state === null) return null;
+    const piece = new Piece(state.matrix);
+    piece.position = state.position;
+    return piece;
+  }
+
+  /**
    * Instantiate a random piece.
    * @param {Vector} position - The position of the piece.
    */

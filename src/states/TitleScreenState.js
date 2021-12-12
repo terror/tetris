@@ -11,6 +11,7 @@ import {
   sounds,
   stateMachine,
 } from '../globals.js';
+import StateManager from '../../lib/StateManager.js';
 
 export default class TitleScreenState extends State {
   constructor() {
@@ -18,6 +19,7 @@ export default class TitleScreenState extends State {
 
     this.menuOptions = {
       start: 'Start',
+      load: 'Load',
       highScores: 'High Scores',
     };
 
@@ -29,25 +31,46 @@ export default class TitleScreenState extends State {
    * @param {Number} dt - The time delta between ticks
    */
   update(dt) {
-    if (keys.w || keys.s) {
-      keys.w = false;
-      keys.s = false;
-      this.highlighted =
-        this.highlighted === this.menuOptions.start
-          ? this.menuOptions.highScores
-          : this.menuOptions.start;
-      sounds.play(SoundName.Rotate);
-    }
-
+    // Handle enter
     if (keys.Enter) {
       keys.Enter = false;
       sounds.play(SoundName.Bump);
 
       if (this.highlighted === this.menuOptions.start) {
         stateMachine.change(GameStateName.LevelSelect);
+      } else if (this.highlighted === this.menuOptions.load) {
+        StateManager.loadState();
       } else {
         stateMachine.change(GameStateName.HighScore);
       }
+    }
+
+    // Handle `w` key press
+    if (keys.w) {
+      keys.w = false;
+      sounds.play(SoundName.Rotate);
+      this.highlighted =
+        this.highlighted === this.menuOptions.start
+          ? this.menuOptions.highScores
+          : this.highlighted === this.menuOptions.load
+          ? this.menuOptions.start
+          : this.highlighted === this.menuOptions.highScores
+          ? this.menuOptions.load
+          : this.highlighted;
+    }
+
+    // Handle `s` key press
+    if (keys.s) {
+      keys.s = false;
+      sounds.play(SoundName.Rotate);
+      this.highlighted =
+        this.highlighted === this.menuOptions.start
+          ? this.menuOptions.load
+          : this.highlighted === this.menuOptions.load
+          ? this.menuOptions.highScores
+          : this.highlighted === this.menuOptions.highScores
+          ? this.menuOptions.start
+          : this.highlighted;
     }
   }
 
@@ -82,6 +105,16 @@ export default class TitleScreenState extends State {
     // `Start` menu option
     context.fillText(
       `${this.menuOptions.start}`,
+      CANVAS_WIDTH * 0.5,
+      CANVAS_HEIGHT * 0.7
+    );
+
+    context.fillStyle =
+      this.highlighted === this.menuOptions.load ? 'cornflowerblue' : 'white';
+
+    // `Load` menu option
+    context.fillText(
+      `${this.menuOptions.load}`,
       CANVAS_WIDTH * 0.5,
       CANVAS_HEIGHT * 0.8
     );

@@ -17,6 +17,16 @@ export default class Board {
   }
 
   /**
+   * Create a new `Board` based on a previous state.
+   * @param {Object} state - Previous board state
+   */
+  static fromState(state) {
+    const board = new Board(state.position, state.dimensions);
+    board.pieces = state.pieces;
+    return board;
+  }
+
+  /**
    * Initialize a new pieces array.
    */
   initializeBoard() {

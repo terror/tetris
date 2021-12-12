@@ -1,4 +1,5 @@
 import State from '../../lib/State.js';
+import StateManager from '../../lib/StateManager.js';
 import GameStateName from '../enums/GameStateName.js';
 import ImageName from '../enums/ImageName.js';
 import SoundName from '../enums/SoundName.js';
@@ -18,7 +19,7 @@ export default class PausedState extends State {
 
     this.menuOptions = {
       resume: 'Resume',
-      exit: 'Exit',
+      exit: 'Save & Exit',
     };
 
     this.highlighted = this.menuOptions.resume;
@@ -61,6 +62,9 @@ export default class PausedState extends State {
           resumed: true,
         });
       } else {
+        // Save the state
+        StateManager.saveState(this.state);
+        // Exit the game
         stateMachine.change(GameStateName.Title);
       }
     }

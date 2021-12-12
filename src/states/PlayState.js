@@ -87,10 +87,11 @@ export default class PlayState extends State {
       this.interval -= Math.floor(
         this.interval * (this.intervalScale * this.level)
       );
-
-      // Begin the level timer
-      this.startTimer();
     }
+
+    // Begin the level timer
+    timer.clear();
+    this.startTimer();
   }
 
   /**

@@ -52,6 +52,9 @@ export default class PlayState extends State {
     // Current amount of ticks
     this.currentTicks = 0;
 
+    // Number of lines cleared
+    this.cleared = 0;
+
     // Time needed to beat the level
     this.maxTimer = 60;
     this.timer = this.maxTimer;
@@ -66,12 +69,12 @@ export default class PlayState extends State {
     this.score = parameters.score;
     this.level = parameters.level;
     this.pieces = parameters.pieces;
+    this.cleared = parameters.cleared ?? 0;
 
     // Reset the timer
     this.timer = parameters.timer ?? this.maxTimer;
 
     if (!parameters.resumed) {
-      console.log(parameters.resumed);
       // Scale the timer accordingly, more time for higher levels
       this.timer *= Math.floor(this.level * this.timerScale);
 
@@ -134,6 +137,7 @@ export default class PlayState extends State {
       sounds.play(SoundName.Rotate);
     } else if (keys.s) {
       keys.s = false;
+      this.currentTicks += 1;
       this.piece.move({ state: this, direction: Direction.Down });
     }
 
@@ -196,21 +200,35 @@ export default class PlayState extends State {
     context.font = '25px Joystix';
     context.textAlign = 'left';
 
-    context.fillText(`Level:`, CANVAS_WIDTH * 0.75, CANVAS_HEIGHT * 0.25);
-    context.fillText(`Score:`, CANVAS_WIDTH * 0.75, CANVAS_HEIGHT * 0.3);
-    context.fillText(`Goal:`, CANVAS_WIDTH * 0.75, CANVAS_HEIGHT * 0.35);
-    context.fillText(`Timer:`, CANVAS_WIDTH * 0.75, CANVAS_HEIGHT * 0.4);
+    context.fillText(`Level:`, CANVAS_WIDTH * 0.75, CANVAS_HEIGHT * 0.21);
+    context.fillText(`Score:`, CANVAS_WIDTH * 0.75, CANVAS_HEIGHT * 0.28);
+    context.fillText(`Goal:`, CANVAS_WIDTH * 0.75, CANVAS_HEIGHT * 0.36);
+    context.fillText(`Cleared:`, CANVAS_WIDTH * 0.75, CANVAS_HEIGHT * 0.44);
+    context.fillText(`Timer:`, CANVAS_WIDTH * 0.75, CANVAS_HEIGHT * 0.52);
 
     context.textAlign = 'right';
 
     context.fillText(
       `${this.level}`,
       CANVAS_WIDTH * 0.95,
-      CANVAS_HEIGHT * 0.25
+      CANVAS_HEIGHT * 0.21
     );
-    context.fillText(`${this.score}`, CANVAS_WIDTH * 0.95, CANVAS_HEIGHT * 0.3);
-    context.fillText(`${this.goal}`, CANVAS_WIDTH * 0.95, CANVAS_HEIGHT * 0.35);
-    context.fillText(`${this.timer}`, CANVAS_WIDTH * 0.95, CANVAS_HEIGHT * 0.4);
+    context.fillText(
+      `${this.score}`,
+      CANVAS_WIDTH * 0.95,
+      CANVAS_HEIGHT * 0.28
+    );
+    context.fillText(`${this.goal}`, CANVAS_WIDTH * 0.95, CANVAS_HEIGHT * 0.36);
+    context.fillText(
+      `${this.cleared}`,
+      CANVAS_WIDTH * 0.95,
+      CANVAS_HEIGHT * 0.44
+    );
+    context.fillText(
+      `${this.timer}`,
+      CANVAS_WIDTH * 0.95,
+      CANVAS_HEIGHT * 0.52
+    );
   }
 
   /**
@@ -309,6 +327,9 @@ export default class PlayState extends State {
     // Placed blocks get one point
     this.score += 1;
 
+    // Increment lines cleared
+    this.cleared += cleared;
+
     // Add bonus points for cleared lines
     this.score += this.sweepBonus * cleared;
 
@@ -341,6 +362,7 @@ export default class PlayState extends State {
 
     // Go on to the next level
     stateMachine.change(GameStateName.LevelTransition, {
+      cleared: this.cleared,
       level: this.level + 1,
       score: this.score,
     });

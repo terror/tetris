@@ -17,6 +17,7 @@ import {
   MAX_LEVEL,
   BOARD_WIDTH,
   BOARD_HEIGHT,
+  PIECES,
 } from '../globals.js';
 
 export default class LevelSelectState extends State {
@@ -57,7 +58,7 @@ export default class LevelSelectState extends State {
         score: 0,
         level: this.level,
         pieces: new Queue(
-          new Array(4).fill(null).map(() => Piece.getRandomPiece())
+          new Array(4).fill(PIECES).map(() => Piece.getRandomPiece())
         ),
       });
     }

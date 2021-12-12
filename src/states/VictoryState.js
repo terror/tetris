@@ -14,11 +14,19 @@ export default class VictoryState extends State {
     this.highlighted = this.menuOptions.enterHighScore;
   }
 
+  /**
+   * Enter the state.
+   * @param {Object} parameters - The parameters to set.
+   */
   enter(parameters) {
     this.level = parameters.level;
     this.score = parameters.score;
   }
 
+  /**
+   * Update the state.
+   * @param {Number} dt - The delta time.
+   */
   update(dt) {
     if (keys.Enter) {
       keys.Enter = false;
@@ -31,6 +39,9 @@ export default class VictoryState extends State {
     }
   }
 
+  /**
+   * Render the states interface.
+   */
   render() {
     images.render(ImageName.Background, 0, 0, CANVAS_WIDTH, CANVAS_HEIGHT);
 

@@ -15,6 +15,7 @@ export const BOARD_WIDTH = 600;
 export const MAX_HIGH_SCORES = 10;
 export const MAX_LEVEL = 10;
 export const TILE_SIZE = 50;
+export const PIECES = 4;
 
 export const keys = {};
 export const images = new Images(context);

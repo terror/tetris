@@ -24,10 +24,18 @@ export default class PausedState extends State {
     this.highlighted = this.menuOptions.resume;
   }
 
+  /**
+   * Enter the state.
+   * @param {Object} parameters - The parameters to pass to the state.
+   */
   enter(parameters) {
     this.state = parameters.state;
   }
 
+  /**
+   * Update the state.
+   * @param {Number} dt - The delta time.
+   */
   update(dt) {
     if (keys.w || keys.s) {
       keys.w = false;
@@ -58,6 +66,9 @@ export default class PausedState extends State {
     }
   }
 
+  /**
+   * Render the states interface.
+   */
   render() {
     images.render(ImageName.Background, 0, 0, CANVAS_WIDTH, CANVAS_HEIGHT);
 

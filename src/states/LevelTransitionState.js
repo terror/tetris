@@ -1,4 +1,5 @@
 import Board from '../objects/Board.js';
+import GameStateName from '../enums/GameStateName.js';
 import ImageName from '../enums/ImageName.js';
 import Piece from '../objects/Piece.js';
 import Queue from '../../lib/Queue.js';
@@ -12,10 +13,10 @@ import {
   CANVAS_WIDTH,
   context,
   images,
+  PIECES,
   stateMachine,
   timer,
 } from '../globals.js';
-import GameStateName from '../enums/GameStateName.js';
 
 export default class LevelTransitionState extends State {
   constructor() {
@@ -24,26 +25,26 @@ export default class LevelTransitionState extends State {
     // Countdown timer until the next level
     this.maxTimer = 10;
     this.timer = this.maxTimer;
+
+    // The transition alpha
+    this.transitionAlpha = 1;
   }
 
   /**
    * Enter the state.
    * @param {Object} parameters - The parameters to pass to the state.
    */
-  enter(parameters) {
-    this.score = parameters.score;
+  async enter(parameters) {
+    this.cleared = parameters.cleared;
     this.level = parameters.level;
+    this.score = parameters.score;
 
     // Reset the timer
     this.timer = this.maxTimer;
 
-    // Launch the confetti
-    // TODO: Get this to display above the interface
-    // confetti({
-    //   particleCount: 100,
-    //   spread: 70,
-    //   origin: { y: 0.6 },
-    // });
+    // Fade in
+    this.transitionAlpha = 1;
+    await timer.tweenAsync(this, ['transitionAlpha'], [0], 1);
 
     // Begin the transition timer
     this.startTimer();
@@ -64,10 +65,11 @@ export default class LevelTransitionState extends State {
             BOARD_HEIGHT / Piece.PIECE_SIZE
           )
         ),
+        cleared: this.cleared,
         score: this.score,
         level: this.level,
         pieces: new Queue(
-          new Array(4).fill(null).map(() => Piece.getRandomPiece())
+          new Array(PIECES).fill(null).map(() => Piece.getRandomPiece())
         ),
       });
     }
@@ -82,6 +84,19 @@ export default class LevelTransitionState extends State {
 
     context.save();
 
+    this.renderForeground();
+    this.renderTimer();
+
+    context.restore();
+  }
+
+  renderForeground() {
+    context.fillStyle = `rgb(255, 255, 255, ${this.transitionAlpha})`;
+    context.fillRect(0, 0, CANVAS_WIDTH, CANVAS_HEIGHT);
+    context.restore();
+  }
+
+  renderTimer() {
     context.font = '40px Joystix';
     context.fillStyle = 'white';
     context.textBaseline = 'middle';
@@ -104,8 +119,6 @@ export default class LevelTransitionState extends State {
       CANVAS_WIDTH * 0.5,
       CANVAS_HEIGHT * 0.6
     );
-
-    context.restore();
   }
 
   /**

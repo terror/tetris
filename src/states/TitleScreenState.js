@@ -24,6 +24,10 @@ export default class TitleScreenState extends State {
     this.highlighted = this.menuOptions.start;
   }
 
+  /**
+   * Update the state.
+   * @param {Number} dt - The time delta between ticks
+   */
   update(dt) {
     if (keys.w || keys.s) {
       keys.w = false;
@@ -47,6 +51,9 @@ export default class TitleScreenState extends State {
     }
   }
 
+  /**
+   * Render the states interface.
+   */
   render() {
     images.render(ImageName.Background, 0, 0, CANVAS_WIDTH, CANVAS_HEIGHT);
 

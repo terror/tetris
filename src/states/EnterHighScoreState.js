@@ -12,6 +12,9 @@ import {
   stateMachine,
 } from '../globals.js';
 
+/**
+ * Note: Adapted from Assignment #2 - Breakout
+ */
 export default class EnterHighScoreState extends State {
   constructor() {
     super();

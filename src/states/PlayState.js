@@ -64,11 +64,15 @@ export default class PlayState extends State {
    * Enter this state
    * @param {Object} parameters - Parameters to set
    */
-  enter(parameters) {
+  async enter(parameters) {
     this.board = parameters.board;
     this.score = parameters.score;
     this.level = parameters.level;
     this.pieces = parameters.pieces;
+
+    // Fade in
+    this.transitionAlpha = 0.25;
+    await timer.tweenAsync(this, ['transitionAlpha'], [0], 1);
 
     // Resumed state
     this.cleared = parameters.cleared ?? 0;
@@ -166,12 +170,22 @@ export default class PlayState extends State {
     images.render(ImageName.Background, 0, 0, CANVAS_WIDTH, CANVAS_HEIGHT);
 
     // Render the user interface
+    this.renderForeground();
     this.renderHeader();
     this.renderStatistics();
     this.renderGame();
     this.renderHold();
     this.renderNext();
 
+    context.restore();
+  }
+
+  /**
+   * Render the foreground for transition.
+   */
+  renderForeground() {
+    context.fillStyle = `rgb(255, 255, 255, ${this.transitionAlpha})`;
+    context.fillRect(0, 0, CANVAS_WIDTH, CANVAS_HEIGHT);
     context.restore();
   }
 

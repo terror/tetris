@@ -1,10 +1,10 @@
 const SoundName = {
   Bump: 'bump',
+  Clear: 'removal',
+  Click: 'click',
   GameOver: 'over',
-  Rotate: 'rotate',
   Theme: 'theme',
   Victory: 'success',
-  Clear: 'removal',
 };
 
 export default SoundName;

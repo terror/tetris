@@ -32,8 +32,8 @@
       "loop": true
     },
     {
-      "name": "rotate",
-      "path": "./assets/sounds/rotate.mp3",
+      "name": "click",
+      "path": "./assets/sounds/click.mp3",
       "size": 5,
       "volume": 0.15
     },

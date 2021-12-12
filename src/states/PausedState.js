@@ -45,7 +45,7 @@ export default class PausedState extends State {
         this.highlighted === this.menuOptions.resume
           ? this.menuOptions.exit
           : this.menuOptions.resume;
-      sounds.play(SoundName.Rotate);
+      sounds.play(SoundName.Click);
     }
 
     if (keys.Enter) {

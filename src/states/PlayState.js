@@ -146,7 +146,7 @@ export default class PlayState extends State {
     } else if (keys.w) {
       keys.w = false;
       this.piece.rotate(this.board);
-      sounds.play(SoundName.Rotate);
+      sounds.play(SoundName.Click);
     } else if (keys.s) {
       keys.s = false;
       this.currentTicks += 1;
@@ -336,6 +336,9 @@ export default class PlayState extends State {
    * @param {Boolean} didCollide - If the new piece collided with the board
    */
   handlePlacement(cleared, didCollide) {
+    // Play the `Click` sound
+    sounds.play(SoundName.Click);
+
     // Reset current ticks
     this.currentTicks = 0;
 

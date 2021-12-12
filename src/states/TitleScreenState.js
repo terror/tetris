@@ -48,7 +48,7 @@ export default class TitleScreenState extends State {
     // Handle `w` key press
     if (keys.w) {
       keys.w = false;
-      sounds.play(SoundName.Rotate);
+      sounds.play(SoundName.Click);
       this.highlighted =
         this.highlighted === this.menuOptions.start
           ? this.menuOptions.highScores
@@ -62,7 +62,7 @@ export default class TitleScreenState extends State {
     // Handle `s` key press
     if (keys.s) {
       keys.s = false;
-      sounds.play(SoundName.Rotate);
+      sounds.play(SoundName.Click);
       this.highlighted =
         this.highlighted === this.menuOptions.start
           ? this.menuOptions.load

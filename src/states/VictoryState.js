@@ -1,7 +1,17 @@
 import State from '../../lib/State.js';
 import GameStateName from '../enums/GameStateName.js';
 import ImageName from '../enums/ImageName.js';
-import { context, images, keys, sounds, stateMachine } from '../globals.js';
+import SoundName from '../enums/SoundName.js';
+import {
+  CANVAS_HEIGHT,
+  CANVAS_WIDTH,
+  context,
+  images,
+  keys,
+  sounds,
+  stateMachine,
+  timer,
+} from '../globals.js';
 
 export default class VictoryState extends State {
   constructor() {
@@ -12,15 +22,22 @@ export default class VictoryState extends State {
     };
 
     this.highlighted = this.menuOptions.enterHighScore;
+
+    // The transition alpha
+    this.transitionAlpha = 1;
   }
 
   /**
    * Enter the state.
    * @param {Object} parameters - The parameters to set.
    */
-  enter(parameters) {
+  async enter(parameters) {
     this.level = parameters.level;
     this.score = parameters.score;
+
+    // Fade in
+    this.transitionAlpha = 1;
+    await timer.tweenAsync(this, ['transitionAlpha'], [0], 1);
   }
 
   /**
@@ -28,6 +45,7 @@ export default class VictoryState extends State {
    * @param {Number} dt - The delta time.
    */
   update(dt) {
+    timer.update(dt);
     if (keys.Enter) {
       keys.Enter = false;
       sounds.play(SoundName.Bump);
@@ -47,6 +65,16 @@ export default class VictoryState extends State {
 
     context.save();
 
+    this.renderForeground();
+    this.renderInterface();
+
+    context.restore();
+  }
+
+  /**
+   * Render text and menu options.
+   */
+  renderInterface() {
     context.font = '40px Joystix';
     context.fillStyle = 'white';
     context.textBaseline = 'middle';
@@ -75,7 +103,14 @@ export default class VictoryState extends State {
       CANVAS_WIDTH * 0.5,
       CANVAS_HEIGHT * 0.8
     );
+  }
 
+  /**
+   * Render the foreground for transition.
+   */
+  renderForeground() {
+    context.fillStyle = `rgb(255, 255, 255, ${this.transitionAlpha})`;
+    context.fillRect(0, 0, CANVAS_WIDTH, CANVAS_HEIGHT);
     context.restore();
   }
 }

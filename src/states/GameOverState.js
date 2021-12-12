@@ -10,6 +10,7 @@ import {
   keys,
   sounds,
   stateMachine,
+  timer,
 } from '../globals.js';
 
 export default class GameOverState extends State {
@@ -21,15 +22,22 @@ export default class GameOverState extends State {
     };
 
     this.highlighted = this.menuOptions.enterHighScore;
+
+    // The transition alpha
+    this.transitionAlpha = 1;
   }
 
   /**
    * Enter the state.
    * @param {Object} parameters - The parameters to pass to the state
    */
-  enter(parameters) {
+  async enter(parameters) {
     this.level = parameters.level;
     this.score = parameters.score;
+
+    // Fade in
+    this.transitionAlpha = 1;
+    await timer.tweenAsync(this, ['transitionAlpha'], [0], 1);
   }
 
   /**
@@ -37,6 +45,7 @@ export default class GameOverState extends State {
    * @param {Number} dt - The time delta
    */
   update(dt) {
+    timer.update(dt);
     if (keys.Enter) {
       keys.Enter = false;
       sounds.play(SoundName.Bump);
@@ -56,6 +65,16 @@ export default class GameOverState extends State {
 
     context.save();
 
+    this.renderForeground();
+    this.renderInterface();
+
+    context.restore();
+  }
+
+  /**
+   * Render text and options.
+   */
+  renderInterface() {
     context.font = '40px Joystix';
     context.fillStyle = 'white';
     context.textBaseline = 'middle';
@@ -84,7 +103,14 @@ export default class GameOverState extends State {
       CANVAS_WIDTH * 0.5,
       CANVAS_HEIGHT * 0.8
     );
+  }
 
+  /**
+   * Render the foreground for transition.
+   */
+  renderForeground() {
+    context.fillStyle = `rgb(255, 255, 255, ${this.transitionAlpha})`;
+    context.fillRect(0, 0, CANVAS_WIDTH, CANVAS_HEIGHT);
     context.restore();
   }
 }

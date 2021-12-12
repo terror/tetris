@@ -14,8 +14,8 @@ export default class PieceFactory {
       case PieceType.S:
         return new Piece([
           [0, 0, 0],
-          [0, 1, 1],
-          [1, 1, 0],
+          [0, 3, 3],
+          [3, 3, 0],
         ]);
       case PieceType.Z:
         return new Piece([

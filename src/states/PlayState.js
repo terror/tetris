@@ -69,16 +69,18 @@ export default class PlayState extends State {
     this.score = parameters.score;
     this.level = parameters.level;
     this.pieces = parameters.pieces;
-    this.cleared = parameters.cleared ?? 0;
 
-    // Reset the timer
+    // Resumed state
+    this.cleared = parameters.cleared ?? 0;
     this.timer = parameters.timer ?? this.maxTimer;
 
+    // If we didn't resume the game, perform these operations
     if (!parameters.resumed) {
       // Scale the timer accordingly, more time for higher levels
       this.timer *= Math.floor(this.level * this.timerScale);
 
       // Scale the goal according to the current level
+      this.goal = 20;
       this.goal *= Math.floor(this.level * this.goalScale);
 
       // Scale the interval at which pieces fall accordingly, faster for higher levels
@@ -361,15 +363,16 @@ export default class PlayState extends State {
       return;
     }
 
+    // Play victory sound
+    sounds.play(SoundName.Victory);
+
     // If we're on the last level, transition to the `victory` state
     if (this.level === MAX_LEVEL) {
-      // Play victory sound
-      sounds.play(SoundName.Victory);
-
       // Transition to the victory state
-      stateMachine.changeState(GameStateName.Victory, {
+      stateMachine.change(GameStateName.Victory, {
         score: this.score,
       });
+      return;
     }
 
     // Go on to the next level

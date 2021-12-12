@@ -17,6 +17,10 @@
     {
       "name": "Joystix",
       "path": "./assets/fonts/Joystix.ttf"
+    },
+    {
+      "name": "Play",
+      "path": "./assets/fonts/Play.ttf"
     }
   ],
   "sounds": [

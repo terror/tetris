@@ -208,7 +208,7 @@ export default class PlayState extends State {
     );
 
     // Render all statistics
-    context.font = '25px Joystix';
+    context.font = '25px Play';
     context.textAlign = 'left';
 
     context.fillText(`Level:`, CANVAS_WIDTH * 0.75, CANVAS_HEIGHT * 0.21);
@@ -276,7 +276,7 @@ export default class PlayState extends State {
 
     // Next piece
     context.fillStyle = 'white';
-    context.fillText(`Next`, CANVAS_WIDTH * 0.78, CANVAS_HEIGHT * 0.62);
+    context.fillText(`Queue`, CANVAS_WIDTH * 0.78, CANVAS_HEIGHT * 0.62);
     this.pieces.renderNext();
   }
 

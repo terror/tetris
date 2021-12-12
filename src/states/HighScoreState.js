@@ -53,7 +53,7 @@ export default class HighScoreState extends State {
     context.fillText(
       `🎉 HIGH SCORES 🎉`,
       CANVAS_WIDTH * 0.5,
-      CANVAS_HEIGHT * 0.15
+      CANVAS_HEIGHT * 0.1
     );
 
     for (let i = 1; i <= 10; i++) {
@@ -64,19 +64,19 @@ export default class HighScoreState extends State {
       context.fillText(
         `${i}.`,
         CANVAS_WIDTH * 0.25,
-        CANVAS_HEIGHT * 0.2 + i * 50
+        CANVAS_HEIGHT * 0.15 + i * 50
       );
       context.textAlign = 'center';
       context.fillText(
         `${name}`,
         CANVAS_WIDTH * 0.5,
-        CANVAS_HEIGHT * 0.2 + i * 50
+        CANVAS_HEIGHT * 0.15 + i * 50
       );
       context.textAlign = 'right';
       context.fillText(
         `${score}`,
         CANVAS_WIDTH * 0.75,
-        CANVAS_HEIGHT * 0.2 + i * 50
+        CANVAS_HEIGHT * 0.15 + i * 50
       );
     }
 
@@ -86,7 +86,7 @@ export default class HighScoreState extends State {
     context.fillText(
       `Press Escape to return to the main menu!`,
       CANVAS_WIDTH * 0.5,
-      CANVAS_HEIGHT * 0.97
+      CANVAS_HEIGHT * 0.95
     );
 
     context.restore();

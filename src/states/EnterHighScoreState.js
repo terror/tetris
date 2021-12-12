@@ -81,14 +81,14 @@ export default class EnterHighScoreState extends State {
     context.save();
 
     context.fillStyle = 'white';
-    context.font = '20px Joystix';
+    context.font = '40px Joystix';
     context.textAlign = 'center';
     context.fillText(
       `Your high score: ${this.score}`,
       CANVAS_WIDTH * 0.5,
       CANVAS_HEIGHT * 0.15
     );
-    context.font = '15px Joystix';
+    context.font = '30px Joystix';
     context.fillText(
       `W/S to choose a letter`,
       CANVAS_WIDTH * 0.5,
@@ -119,7 +119,7 @@ export default class EnterHighScoreState extends State {
       CANVAS_HEIGHT * 0.7
     );
     context.fillStyle = 'white';
-    context.font = '10px Joystix';
+    context.font = '30px Joystix';
     context.textBaseline = 'middle';
     context.textAlign = 'center';
     context.fillText(

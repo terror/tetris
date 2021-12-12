@@ -3,8 +3,8 @@
     {
       "name": "background",
       "path": "./assets/images/background.png",
-      "width": 1280,
-      "height": 720
+      "width": 1500,
+      "height": 844
     },
     {
       "name": "pieces",

@@ -55,6 +55,9 @@ export default class PlayState extends State {
     // Number of lines cleared
     this.cleared = 0;
 
+    // Time power up bonus
+    this.timeBonus = 20;
+
     // Time needed to beat the level
     this.maxTimer = 60;
     this.timer = this.maxTimer;
@@ -330,6 +333,9 @@ export default class PlayState extends State {
       // Move the piece up
       this.piece.move({ state: this, direction: Direction.Up });
 
+      // Whether the piece was a power-up
+      const wasPowerUp = this.piece.isPowerUp;
+
       // Add it to the board
       this.board.add(this.pieces.pop());
 
@@ -339,7 +345,8 @@ export default class PlayState extends State {
       // Check for lines
       this.handlePlacement(
         this.board.sweep(),
-        this.piece.didCollide(this.board)
+        this.piece.didCollide(this.board),
+        wasPowerUp
       );
     }
   }
@@ -348,13 +355,20 @@ export default class PlayState extends State {
    * Handle placing a single piece.
    * @param {Number} cleared - The number of lines cleared
    * @param {Boolean} didCollide - If the new piece collided with the board
+   * @param {Boolean} wasPowerUp - If the piece was a power-up
    */
-  handlePlacement(cleared, didCollide) {
+  handlePlacement(cleared, didCollide, wasPowerUp) {
     // Play the `Click` sound
     sounds.play(SoundName.Click);
 
     // Reset current ticks
     this.currentTicks = 0;
+
+    // If lines were cleared and the piece used to clear them
+    // was a power-up, increase the time by 10 seconds * cleared
+    if (cleared !== 0 && wasPowerUp) {
+      this.timer += this.timeBonus * cleared;
+    }
 
     // Placed blocks get one point
     this.score += 1;

@@ -3,7 +3,10 @@ import PieceFactory from '../services/PieceFactory.js';
 import PieceType from '../enums/PieceType.js';
 import SpriteManager from '../../lib/SpriteManager.js';
 import Vector from '../../lib/Vector.js';
-import { getRandomPositiveInteger } from '../../lib/RandomNumberHelpers.js';
+import {
+  didSucceedPercentChance,
+  getRandomPositiveInteger,
+} from '../../lib/RandomNumberHelpers.js';
 import {
   BOARD_HEIGHT,
   BOARD_WIDTH,
@@ -56,14 +59,21 @@ export default class Piece {
 
   /**
    * Instantiate a random piece.
-   * @param {Vector} position - The position of the piece.
    */
   static getRandomPiece() {
-    return PieceFactory.createInstance(
+    // Grab a new random piece using the piece factory
+    const piece = PieceFactory.createInstance(
       Object.keys(PieceType)[
         getRandomPositiveInteger(0, Object.keys(PieceType).length - 1)
       ]
     );
+
+    // 20% chance of spawning a power-up
+    if (didSucceedPercentChance(0.2)) {
+      return new PowerUp(piece.matrix);
+    } else {
+      return piece;
+    }
   }
 
   /**
@@ -177,5 +187,13 @@ export default class Piece {
         }
       });
     });
+  }
+}
+
+class PowerUp extends Piece {
+  constructor(matrix) {
+    super(matrix);
+    this.sprites = SpriteManager.generateClearPieceSprites();
+    this.isPowerUp = true;
   }
 }

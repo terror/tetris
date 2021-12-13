@@ -5,7 +5,21 @@
  *
  * The classic retro arcade game tetris.
  *
- * Asset sources: TODO
+ * Asset sources
+ *
+ * Credit for music
+ *   Bump:    https://freesound.org/people/Raclure/sounds/483602/
+ *   Click:   https://freesound.org/people/errysn/sounds/439523/
+ *   Over:    https://freesound.org/people/myfox14/sounds/382310/
+ *   Removal: https://freesound.org/people/Swedger/sounds/268694/
+ *   Success: https://freesound.org/people/grunz/sounds/109662/
+ *   Theme:   https://nhacchuong68.com/tetris-theme-song/
+ *
+ * Credit for graphics
+ *   Background:   https://images.squarespace-cdn.com/content/v1/51be3e56e4b09edc5f81e74c/1420522052397-Q0FUORF4G23WDPLQISEA/image-asset.png?format=1500w
+ *   Pieces:       https://www.spriters-resource.com/nes/tetris/
+ *   Joystix Font: https://www.dafont.com/joystix.font
+ *   Play Font:    https://fonts.google.com/specimen/Play
  */
 
 import GameStateName from './enums/GameStateName.js';

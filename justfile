@@ -18,3 +18,6 @@ toc path:
     --no-backup   \
     --hide-footer \
   {{ path }}
+
+sloc:
+	@cat src/**/** | wc -l

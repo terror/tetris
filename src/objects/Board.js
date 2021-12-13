@@ -44,8 +44,9 @@ export default class Board {
     piece.matrix.forEach((row, y) => {
       row.forEach((value, x) => {
         if (value !== 0) {
-          this.pieces[y + piece.boardPosition.y][x + piece.boardPosition.x] =
-            value;
+          this.pieces[y + piece.boardPosition.y][
+            x + piece.boardPosition.x
+          ] = value;
         }
       });
     });
